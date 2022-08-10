@@ -1,10 +1,15 @@
 import { useState} from 'react';
-import CoffeeContainer from './CoffeeContainer';
+import styled from 'styled-components';
+import CoffeeSelector from './components/CoffeeSelector';
+import CoffeeBasket from './components/CoffeeBasket';
+import Coffee from './components/Coffee';
 import CoffeeDisplay from './CoffeeDisplay';
 
-function App() {
+const CoffeeContainer = () => {
 
-  const [coffees, setCoffees] = useState([
+
+
+const [coffees, setCoffees] = useState([
     {
         image: <img src= "static.images.IMG_2007.jpg"></img>, 
         coffeeName: "Hawaiian Kona", 
@@ -27,6 +32,19 @@ function App() {
     }
 ]);
 
+const handleCoffeeSelected = (coffeeName) => {
+    // setSelectedCoffeeName(coffeeName)
+}
+  
+  const handleBasketToggle = (coffeeName) => {
+    const updatedCoffees =coffees.map((coffee) => {
+      return coffee.coffeeName === coffeeName
+      ? {...coffee, isBasket: !coffee.isBasket}
+      :coffee
+    })
+    setCoffees(updatedCoffees)
+  }
+
   const displayCoffees = coffees.map( (coffeeObj, i) => {
     return (
         <CoffeeDisplay key={i}
@@ -37,12 +55,21 @@ function App() {
         </CoffeeDisplay>
     )
   })
+//   const selectedCoffee = coffees.find(coffee => coffee.name === selectedCoffeeName)
 
   return (
-    // <CoffeeContainer/>
+    <>
+    <h2 id="title"> Coffee Shop </h2>
+    <CoffeeSelector coffees={coffees} onCoffeeSelected={handleCoffeeSelected}/>
     <ul>{displayCoffees}</ul>
+    {/* <Coffee coffee={selectedCoffee} onCoffeeSelected={handleBasketToggle}/> */}
+     {/*  <CoffeeBasket coffees={coffees} onCoffeeSelected={handleCoffeeSelected}/> */}
+    </>
+)
 
-  );
 }
 
-export default App;
+export default CoffeeContainer
+
+
+
